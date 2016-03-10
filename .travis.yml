@@ -20,9 +20,11 @@ script:
   #docker image name
   - export DOCKER_IMAGE_NAME=$DOCKER_HUB_REPO_NAME/$GITHUB_REPO_NAME
   #github committer name
-  - export COMMITTER_NAME=$(echo `curl -s https://api.github.com/repos/$TRAVIS_REPO_SLUG/commits/$TRAVIS_COMMIT | jq -r .commit.author.name`)
+  - export GITHUB_COMMITTER_NAME=$(echo `curl -s https://api.github.com/repos/$TRAVIS_REPO_SLUG/commits/$TRAVIS_COMMIT | jq -r .commit.author.name`)
+  #github commit short
+  - export GITHUB_COMMIT_SHORT=$({$TRAVIS_COMMIT:0:7})
   #docker tagging scheme
-  - export TAGGING_SCHEME=$TRAVIS_BUILD_NUMBER-$BRANCH-COMMITTER_NAME.{$TRAVIS_COMMIT:0:7}
+  - export TAGGING_SCHEME=$TRAVIS_BUILD_NUMBER-$BRANCH-$GITHUB_COMMITTER_NAME.$GITHUB_COMMIT_SHORT
   - echo "TRAVIS_BRANCH=$BRANCH, PR=$PR, GITHUB_REPO_NAME=$GITHUB_REPO_NAME, DOCKER_HUB_REPO_NAME=$DOCKER_HUB_REPO_NAME, DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME, TAGGING_SCHEME=$TAGGING_SCHEME"
   #build the image
   #- docker build -t $DOCKER_IMAGE_NAME .
