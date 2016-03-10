@@ -14,14 +14,16 @@ script:
   #branch determination
   - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo `curl -s $PR | jq -r .head.ref`; fi)
   #github repo name
-  - export GITHUB_REPO_NAME=$(echo `curl -s curl -s https://api.github.com/repos/$TRAVIS_REPO_SLUG | jq -r .name`)
+  - export GITHUB_REPO_NAME=$(echo `curl -s https://api.github.com/repos/$TRAVIS_REPO_SLUG | jq -r .name`)
   #dockerhub repo name
   - export DOCKER_HUB_REPO_NAME="biggis"
   #docker image name
   - export DOCKER_IMAGE_NAME=$DOCKER_HUB_REPO_NAME/$GITHUB_REPO_NAME
+  #github committer name
+  - export COMMITTER_NAME=$(echo `curl -s https://api.github.com/repos/$TRAVIS_REPO_SLUG/commits/$TRAVIS_COMMIT | jq -r .commit.author.name`)
   #docker tagging scheme
-  - export TAGGING_SCHEME=$TRAVIS_BUILD_NUMBER-$BRANCH.$TRAVIS_COMMIT
-  - echo "TRAVIS_BRANCH=$BRANCH, PR=$PR, GITHUB_REPO=$GITHUB_REPO, DOCKER_HUB_REPO_NAME=$DOCKER_HUB_REPO_NAME, DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME, TAGGING_SCHEME=$TAGGING_SCHEME"
+  - export TAGGING_SCHEME=$TRAVIS_BUILD_NUMBER-$BRANCH-COMMITTER_NAME.{$TRAVIS_COMMIT:0:7}
+  - echo "TRAVIS_BRANCH=$BRANCH, PR=$PR, GITHUB_REPO_NAME=$GITHUB_REPO_NAME, DOCKER_HUB_REPO_NAME=$DOCKER_HUB_REPO_NAME, DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME, TAGGING_SCHEME=$TAGGING_SCHEME"
   #build the image
   #- docker build -t $DOCKER_IMAGE_NAME .
   - echo 'docker build ...'
