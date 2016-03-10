@@ -5,9 +5,9 @@ sudo: required
 services:
   - docker
 
-install:
+before_install:
   #login to dockerhub
-  - docker login -e $DOCKER_HUB_EMAIL -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD
+  - docker login -e="$DOCKER_HUB_EMAIL" -u="$DOCKER_HUB_USER" -p="$DOCKER_HUB_PASSWORD"
 
 script:
   #helper for branch determination
