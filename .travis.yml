@@ -18,7 +18,7 @@ script:
   #github committer name
   - export GITHUB_COMMITTER_NAME=$(echo `curl -s https://api.github.com/repos/$TRAVIS_REPO_SLUG/commits/$TRAVIS_COMMIT | jq -r .commit.author.name`)
   #github commit short
-  - export GITHUB_COMMIT_SHORT=$(echo `${TRAVIS_COMMIT:0:7}`)
+  - export GITHUB_COMMIT_SHORT=$(echo ${TRAVIS_COMMIT:0:7})
   #dockerhub repo name
   - export DOCKER_HUB_REPO_NAME="biggis"
   #docker image name
