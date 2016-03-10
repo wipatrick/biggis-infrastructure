@@ -1,3 +1,3 @@
-FROM scratch
-COPY hello /
+FROM debian
+COPY hello .
 CMD ["/hello"]
