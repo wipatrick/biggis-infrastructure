@@ -1,3 +1,5 @@
+language: bash
+
 sudo: required
 
 services:
@@ -5,8 +7,7 @@ services:
 
 install:
   #login to dockerhub
-  #- docker login -e $DOCKER_HUB_EMAIL -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD
-  - echo 'docker login ...'
+  - docker login -e $DOCKER_HUB_EMAIL -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD
 
 script:
   #helper for branch determination
@@ -25,16 +26,14 @@ script:
   - export DOCKER_IMAGE_NAME=$DOCKER_HUB_REPO_NAME/$GITHUB_REPO_NAME
   #docker tagging scheme
   - export TAGGING_SCHEME=$TRAVIS_BUILD_NUMBER-$BRANCH-$GITHUB_COMMITTER_NAME.$GITHUB_COMMIT_SHORT
-  - echo "TRAVIS_BRANCH=$BRANCH, PR=$PR, GITHUB_REPO_NAME=$GITHUB_REPO_NAME, DOCKER_HUB_REPO_NAME=$DOCKER_HUB_REPO_NAME, DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME, TAGGING_SCHEME=$TAGGING_SCHEME"
+  #- echo "TRAVIS_BRANCH=$BRANCH, PR=$PR, GITHUB_REPO_NAME=$GITHUB_REPO_NAME, DOCKER_HUB_REPO_NAME=$DOCKER_HUB_REPO_NAME, DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME, TAGGING_SCHEME=$TAGGING_SCHEME"
   #build the image
-  #- docker build -t $DOCKER_IMAGE_NAME .
-  - echo 'docker build ...'
+  - docker build -t $DOCKER_IMAGE_NAME .
   #test image
-  - echo 'docker run ...'
 
 after_success:
   - echo "test successful"
   #tag the image w/ tagging scheme
-  #- docker tag $DOCKER_IMAGE_NAME:latest $DOCKER_IMAGE_NAME:$TAGGING_SCHEME
+  - docker tag $DOCKER_IMAGE_NAME:latest $DOCKER_IMAGE_NAME:$TAGGING_SCHEME
   #push the image to dockerhub
-  #- docker push $DOCKER_IMAGE_NAME
+  - docker push $DOCKER_IMAGE_NAME
