@@ -5,13 +5,16 @@ services:
 
 before_install:
   #login to dockerhub
-  - docker login -e $DOCKER_HUB_EMAIL -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD
+  #- docker login -e $DOCKER_HUB_EMAIL -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD
+  - echo 'docker login ...'
+
 
 script:
   #build the image
-  - docker build -t $DOCKER_IMAGE_NAME .
+  #- docker build -t $DOCKER_IMAGE_NAME .
+  - echo 'docker build ...'
   #test image
-  # - docker run ...
+  - echo 'docker run ...'
 
 after_success:
   #tag the image w/ tagging scheme
