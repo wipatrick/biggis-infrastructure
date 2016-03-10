@@ -3,13 +3,25 @@ sudo: required
 services:
   - docker
 
-before_install:
+install:
   #login to dockerhub
   #- docker login -e $DOCKER_HUB_EMAIL -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD
   - echo 'docker login ...'
 
-
 script:
+  #helper for branch determination
+  - export PR=https://api.github.com/repos/$TRAVIS_REPO_SLUG/pulls/$TRAVIS_PULL_REQUEST
+  #branch determination
+  - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo `curl -s $PR | jq -r .head.ref`; fi)
+  #github repo name
+  - export GITHUB_REPO_NAME=$(echo `curl -s curl -s https://api.github.com/repos/$TRAVIS_REPO_SLUG | jq -r .name`)
+  #dockerhub repo name
+  - export DOCKER_HUB_REPO_NAME="biggis"
+  #docker image name
+  - export DOCKER_IMAGE_NAME=$DOCKER_HUB_REPO_NAME/$GITHUB_REPO_NAME
+  #docker tagging scheme
+  - export TAGGING_SCHEME=$TRAVIS_BUILD_NUMBER-$BRANCH.$TRAVIS_COMMIT
+  - echo "TRAVIS_BRANCH=$BRANCH, PR=$PR, GITHUB_REPO=$GITHUB_REPO, DOCKER_HUB_REPO_NAME=$DOCKER_HUB_REPO_NAME, DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME, TAGGING_SCHEME=$TAGGING_SCHEME"
   #build the image
   #- docker build -t $DOCKER_IMAGE_NAME .
   - echo 'docker build ...'
@@ -17,21 +29,8 @@ script:
   - echo 'docker run ...'
 
 after_success:
+  - echo "test successful"
   #tag the image w/ tagging scheme
   #- docker tag $DOCKER_IMAGE_NAME:latest $DOCKER_IMAGE_NAME:$TAGGING_SCHEME
   #push the image to dockerhub
   #- docker push $DOCKER_IMAGE_NAME
-
-env:
-  #helper for branch determination
-  - PR=https://api.github.com/repos/$TRAVIS_REPO_SLUG/pulls/$TRAVIS_PULL_REQUEST
-  #branch determination
-  - BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo `curl -s $PR | jq -r .head.ref`; fi)
-  #github repo name
-  - GITHUB_REPO_NAME=$(echo `curl -s curl -s https://api.github.com/repos/$TRAVIS_REPO_SLUG | jq -r .name`)
-  #dockerhub repo name
-  - DOCKER_HUB_REPO_NAME="biggis"
-  #docker image name
-  - DOCKER_IMAGE_NAME=$DOCKER_HUB_REPO_NAME/$GITHUB_REPO_NAME
-  #docker tagging scheme
-  - TAGGING_SCHEME=$TRAVIS_BUILD_NUMBER-$BRANCH.$TRAVIS_COMMIT
