@@ -18,9 +18,9 @@ script:
 
 after_success:
   #tag the image w/ tagging scheme
-  - docker tag $DOCKER_IMAGE_NAME:latest $DOCKER_IMAGE_NAME:$TAGGING_SCHEME
+  #- docker tag $DOCKER_IMAGE_NAME:latest $DOCKER_IMAGE_NAME:$TAGGING_SCHEME
   #push the image to dockerhub
-  - docker push $DOCKER_IMAGE_NAME
+  #- docker push $DOCKER_IMAGE_NAME
 
 env:
   #helper for branch determination
