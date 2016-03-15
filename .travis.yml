@@ -17,7 +17,7 @@ script:
   #github repo name
   - export GITHUB_REPO_NAME=$(echo `curl -s https://api.github.com/repos/$TRAVIS_REPO_SLUG | jq -r .name`)
   #github committer name
-  - export GITHUB_COMMITTER_NAME=$(echo `curl -s https://api.github.com/repos/$TRAVIS_REPO_SLUG/commits/$TRAVIS_COMMIT | jq -r .commit.author.name`)
+  - export GITHUB_COMMITTER_NAME=$(echo `curl -s https://api.github.com/repos/$TRAVIS_REPO_SLUG/commits/$TRAVIS_COMMIT | jq -r .committer.login`)
   #github commit short
   - export GITHUB_COMMIT_SHORT=$(echo ${TRAVIS_COMMIT:0:7})
   #dockerhub repo name
