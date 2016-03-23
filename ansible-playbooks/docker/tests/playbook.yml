@@ -1,4 +1,4 @@
-# test file for Java 8
+# test file for Docker
 ---
 - hosts: vagrantbox
   remote_user: vagrant

@@ -1,4 +1,4 @@
-# test file for virtualbox
+# test file for common
 ---
 - hosts: vagrantbox
   remote_user: vagrant
