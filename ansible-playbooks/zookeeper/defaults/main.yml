@@ -1,6 +1,6 @@
 ---
   zookeeper_version: "3.4.8"
-  zookeeper_url: "http://mirror2.shellbot.com/apache/zookeeper/zookeeper-{{ zookeeper_version }}/zookeeper-{{ zookeeper_version }}.tar.gz"
+  zookeeper_url: "http://ftp.halifax.rwth-aachen.de/apache/zookeeper/zookeeper-{{ zookeeper_version }}/zookeeper-{{ zookeeper_version }}.tar.gz"
 
   data_dir: /var/lib/zookeeper
   log_dir: /var/log/zookeeper

@@ -15,6 +15,7 @@
       name: "{{ build_user }}"
       group: "{{ build_user_group }}"
       state: present
+    changed_when: false
     when: "ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7'"
     tags:
       - common
@@ -78,7 +79,7 @@
       - common
 
   # Install system tools
-  - name: Install EPEL repo and useful system tools
+  - name: Install useful system tools
     yum:
       name: "{{ item }}"
       state: present
@@ -87,8 +88,10 @@
       - htop
       - tmux
       - wget
+      - curl
       - git
       - tar
+      - libselinux-python
     when: "ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7'"
     tags:
       - common
