@@ -29,24 +29,24 @@ mesos_ip: "{{ hostvars[inventory_hostname]['ansible_' + iface].ipv4.address }}"
 mesos_log_dir: "/var/log/mesos"
 mesos_ulimit: "-n 8192" # limits use of system-wide resources
 mesos_hostname: "{{ inventory_hostname }}"
-zookeeper_client_port: 2181
+zookeeper_client_port: "2181"
 zookeeper_hostnames: "{{ mesos_hostname }}:{{ zookeeper_client_port }}"
 mesos_zookeeper_masters: "zk://{{ zookeeper_hostnames }}/mesos"
 
 # Master only
 # /etc/mesos-master/...
-mesos_master_port: 5050
+mesos_master_port: "5050"
 mesos_work_dir: "/var/mesos"
-mesos_quorum: 1 # number of mesos masters for HA
+mesos_quorum: "1" # number of mesos masters for HA
 
 # Slave only
 # /etc/mesos-slave/...
-mesos_slave_port: 5051
+mesos_slave_port: "5051"
 mesos_slave_containerizers: "docker,mesos"
 mesos_slave_executor_timeout: "5mins"
 
-mesos_owner: root
-mesos_group: root
+mesos_owner: "root"
+mesos_group: "root"
 
 
 # Additional configuration

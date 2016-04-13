@@ -43,7 +43,7 @@
 
   # Add new mesos-dns configuration file
   - name: Add Mesos default config file
-    template: src=conf-config.json.j2 dest=/usr/local/mesos-dns/config.json
+    template: src=conf-config.json.j2 dest=/home/{{ ansible_ssh_user }}/go/src/github.com/mesosphere/mesos-dns/config.json owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }}
     when: (mesos_install_mode == "master" or mesos_install_mode == "master-slave") and "ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7'"
     tags: mesos-dns
 

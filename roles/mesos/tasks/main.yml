@@ -78,7 +78,7 @@
       - { src: 'conf-mesos-slave-containerizers.j2', dest: '/etc/mesos-slave/containerizers'}
       - { src: 'conf-mesos-slave-executor_registration_timeout.j2', dest: '/etc/mesos-slave/executor_registration_timeout'}
       - { src: 'conf-mesos-slave-work_dir.j2', dest: '/etc/mesos-slave/work_dir'}
-    when: mesos_install_mode == "slave" or mesos_install_mode == "master-slave"
+    when: mesos_install_mode == "master" or mesos_install_mode == "slave" or mesos_install_mode == "master-slave"
     notify:
       - Restart mesos-slave
     tags: mesos
@@ -99,7 +99,7 @@
 
   - name: Add Mesos Slave systemd script
     template: src=mesos-slave.service.j2 dest=/usr/lib/systemd/system/mesos-slave.service
-    when: (mesos_install_mode == "slave" or mesos_install_mode == "master-slave") and systemd_check.stat.exists == true and "ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7'"
+    when: (mesos_install_mode == "master" or mesos_install_mode == "slave" or mesos_install_mode == "master-slave") and systemd_check.stat.exists == true and "ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7'"
     notify:
       - Reload daemon
       - Restart mesos-slave
