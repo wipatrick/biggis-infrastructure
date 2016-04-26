@@ -1,7 +1,7 @@
 ---
   - hosts: [all]
-    remote_user: vagrant
+    remote_user: root
     become: yes
     become_method: sudo
     roles:
-      - { role: '../roles/common/'}
+      - { role: 'roles/common/'}

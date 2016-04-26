@@ -13,7 +13,7 @@ w-bd-o-node7
 w-bd-o-node8
 
 [mesos_masters:vars]
-iface=enp0s8
+iface=enp3s0
 
 [mesos_slaves:vars]
-iface=enp0s8
+iface=enp3s0
